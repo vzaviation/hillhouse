@@ -568,8 +568,17 @@ window.FrontendBook = window.FrontendBook || {};
         var city = GeneralFunctions.escapeHtml($('#city').val());
         var zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
         var driverslicense = GeneralFunctions.escapeHtml($('Drivers-licesne').val());
+        var Visitor2Name = GeneralFunctions.escapeHtml($('Visitor-2-Name').val());
+        var Visitor_2_DL = GeneralFunctions.escapeHtml($('Visitor_2_DL').val());
+        var Visitor3Name = GeneralFunctions.escapeHtml($('Visitor-3-Name').val());
+        var Visitor_3_DL = GeneralFunctions.escapeHtml($('Visitor_3_DL').val());
+        var Visitor4Name = GeneralFunctions.escapeHtml($('Visitor-4-Name').val());
+        var Visitor_4_DL = GeneralFunctions.escapeHtml($('Visitor_4_DL').val());
+        
+        
 
         $('#customer-details').empty();
+        
 
         $('<div/>', {
             'html': [
@@ -622,6 +631,13 @@ window.FrontendBook = window.FrontendBook || {};
             zip_code: $('#zip-code').val(),
             timezone: $('#select-timezone').val(),
             drivers-license: $('#drivers-license').val()
+            Visitor_2_DL: $('#Visitor_2_DL').val()
+            Visitor_3_DL: $('#Visitor_3_DL').val()
+            Visitor_4_DL: $('#Visitor_4_DL').val()
+            Visitor2Name: $('#Visitor-2-Name').val()
+            Visitor3Name: $('#Visitor-3-Name').val()
+            Visitor4Name: $('#Visitor-4-Name').val()
+            
         };
 
         data.appointment = {
@@ -703,6 +719,13 @@ window.FrontendBook = window.FrontendBook || {};
             $('#city').val(customer.city);
             $('#zip-code').val(customer.zip_code);
             $('#drivers-license').val(customer.drivers_license);
+            $('#Visitor_2_DL').val(customer.Visitor_2_DL);
+            $('#Visitor_3_DL').val(customer.Visitor_3_DL);
+            $('#Visitor_4_DL').val(customer.Visitor_4_DL);
+            $('#Visitor-2-Name').val(customer.Visitor-2-Name);
+            $('#Visitor-3-Name').val(customer.Visitor-3-Name);
+            $('#Visitor-4-Name').val(customer.Visitor-4-Name);
+            
             if (customer.timezone) {
                 $('#select-timezone').val(customer.timezone)
             }

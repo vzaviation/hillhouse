@@ -1,9 +1,0 @@
-version: 0.0
-Resources:
-  - TargetService:
-      Type: AWS::ECS::Service
-      Properties:
-        TaskDefinition: "arn:aws:iam::573199273448:role/ecsTaskExecutionRole"
-        LoadBalancerInfo:
-          ContainerName: "ea-container"
-          ContainerPort: []
