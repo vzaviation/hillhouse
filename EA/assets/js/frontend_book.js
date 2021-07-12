@@ -151,6 +151,14 @@ window.FrontendBook = window.FrontendBook || {};
             if (selectedServiceId && $selectService.find('option[value="' + selectedServiceId + '"]').length > 0) {
                 $selectService.val(selectedServiceId);
             }
+            
+            // Check if a specific inmate was selected (via URL parameter).
+            var selectedinmateid = GeneralFunctions.getUrlParameter(location.href, 'inmate');
+
+            if (selectedinmateid && $selectService.find('option[value="' + selectedinmateid + '"]').length > 0) {
+                $selectService.val(selectedinmateid);
+            }
+
 
             $selectService.trigger('change'); // Load the available hours.
 
@@ -233,8 +241,9 @@ window.FrontendBook = window.FrontendBook || {};
 
             // Add the "Any Provider" entry.
             if ($('#select-provider option').length >= 1 && GlobalVariables.displayAnyProvider === '1') {
-                $('#select-provider').append(new Option('- ' + EALang.any_provider + ' -', 'any-provider',true,true));
+                $('#select-provider').prepend(new Option('- ' + EALang.any_provider + ' -', 'any-provider',true,true));
             }
+            
 
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
@@ -504,6 +513,7 @@ window.FrontendBook = window.FrontendBook || {};
         }
 
         // Appointment Details
+        
         var selectedDate = $('#select-date').datepicker('getDate');
 
         if (selectedDate !== null) {
@@ -513,6 +523,9 @@ window.FrontendBook = window.FrontendBook || {};
         var serviceId = $('#select-service').val();
         var servicePrice = '';
         var serviceCurrency = '';
+        var inmateid = $('#select-inmate').val();
+        var visitor_2_name = GeneralFunctions.escapeHtml($('#visitor-2-name').val());
+        
 
         GlobalVariables.availableServices.forEach(function (service, index) {
             if (Number(service.id) === Number(serviceId) && Number(service.price) > 0) {
@@ -537,6 +550,10 @@ window.FrontendBook = window.FrontendBook || {};
                         $('<br/>'),
                         $('<span/>', {
                             'text': EALang.provider + ': ' + $('#select-provider option:selected').text()
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.service + ': ' + $('#select-service option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
@@ -567,14 +584,9 @@ window.FrontendBook = window.FrontendBook || {};
         var address = GeneralFunctions.escapeHtml($('#address').val());
         var city = GeneralFunctions.escapeHtml($('#city').val());
         var zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
-        var driverslicense = GeneralFunctions.escapeHtml($('Drivers-licesne').val());
-        var Visitor2Name = GeneralFunctions.escapeHtml($('Visitor-2-Name').val());
-        var Visitor_2_DL = GeneralFunctions.escapeHtml($('Visitor_2_DL').val());
-        var Visitor3Name = GeneralFunctions.escapeHtml($('Visitor-3-Name').val());
-        var Visitor_3_DL = GeneralFunctions.escapeHtml($('Visitor_3_DL').val());
-        var Visitor4Name = GeneralFunctions.escapeHtml($('Visitor-4-Name').val());
-        var Visitor_4_DL = GeneralFunctions.escapeHtml($('Visitor_4_DL').val());
+
         
+       
         
 
         $('#customer-details').empty();
@@ -630,13 +642,7 @@ window.FrontendBook = window.FrontendBook || {};
             city: $('#city').val(),
             zip_code: $('#zip-code').val(),
             timezone: $('#select-timezone').val(),
-            drivers-license: $('#drivers-license').val()
-            Visitor_2_DL: $('#Visitor_2_DL').val()
-            Visitor_3_DL: $('#Visitor_3_DL').val()
-            Visitor_4_DL: $('#Visitor_4_DL').val()
-            Visitor2Name: $('#Visitor-2-Name').val()
-            Visitor3Name: $('#Visitor-3-Name').val()
-            Visitor4Name: $('#Visitor-4-Name').val()
+
             
         };
 
@@ -647,7 +653,11 @@ window.FrontendBook = window.FrontendBook || {};
             notes: $('#notes').val(),
             is_unavailable: false,
             id_users_provider: $('#select-provider').val(),
-            id_services: $('#select-service').val()
+            id_services: $('#select-service').val(),
+            visitor_2_name: $('#visitor-2-name').val(),
+            inmate_name: $('#select-inmate').val(),
+            
+            
         };
 
         data.manage_mode = FrontendBook.manageMode;
@@ -704,11 +714,15 @@ window.FrontendBook = window.FrontendBook || {};
             // Select Service & Provider
             $('#select-service').val(appointment.id_services).trigger('change');
             $('#select-provider').val(appointment.id_users_provider);
+            $('#select-inmate').val(appointment.inmate_name);
 
             // Set Appointment Date
             $('#select-date').datepicker('setDate',
                 Date.parseExact(appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss'));
             FrontendBookApi.getAvailableHours(moment(appointment.start_datetime).format('YYYY-MM-DD'));
+            
+            // Apply Additional Appointment Data
+            $('#visitor-2-name').val(appointment.visitor_2_name);
 
             // Apply Customer's Data
             $('#last-name').val(customer.last_name);
@@ -718,13 +732,8 @@ window.FrontendBook = window.FrontendBook || {};
             $('#address').val(customer.address);
             $('#city').val(customer.city);
             $('#zip-code').val(customer.zip_code);
-            $('#drivers-license').val(customer.drivers_license);
-            $('#Visitor_2_DL').val(customer.Visitor_2_DL);
-            $('#Visitor_3_DL').val(customer.Visitor_3_DL);
-            $('#Visitor_4_DL').val(customer.Visitor_4_DL);
-            $('#Visitor-2-Name').val(customer.Visitor-2-Name);
-            $('#Visitor-3-Name').val(customer.Visitor-3-Name);
-            $('#Visitor-4-Name').val(customer.Visitor-4-Name);
+            $('#test').val(customer.test);
+
             
             if (customer.timezone) {
                 $('#select-timezone').val(customer.timezone)
@@ -732,6 +741,8 @@ window.FrontendBook = window.FrontendBook || {};
             var appointmentNotes = (appointment.notes !== null)
                 ? appointment.notes : '';
             $('#notes').val(appointmentNotes);
+            
+           
 
             FrontendBook.updateConfirmFrame();
 

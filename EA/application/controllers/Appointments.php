@@ -298,7 +298,6 @@ class Appointments extends EA_Controller {
                 'last_name' => $customer['last_name'],
                 'email' => $customer['email'],
                 'timezone' => $customer['timezone'],
-                'drivers_licese' => $customer['drivers_license'],
             ],
             'service_data' => $service,
             'company_name' => $company_name,

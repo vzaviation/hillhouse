@@ -241,7 +241,7 @@
                                     <label for="inmate_flag" class="control-label">
                                         <?= lang('inmate_flag') ?>
                                     </label>
-                                    <input id="inmate_flag" class="form-control">
+                                    <input id="inmate-flag" class="form-control">
                                 </div>
                                     
                                     <label for="start-datetime"
@@ -339,10 +339,10 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                <label for="Visitor_1_dl_state" class="control-label">
-                                    <?= lang('Visitor_1_dl_state') ?>
+                                <label for="visitor_1_dl_state" class="control-label">
+                                    <?= lang('visitor_1_dl_state') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-1-dl-state" class="form-control" maxlength="500"/>
                             </div> 
                              
                             <div class="form-group">
@@ -377,10 +377,10 @@
                                 
                                 <form>
                                 <div class="form-group">
-                                <label for="Visitor_1_DL" class="control-label">
-                                    <?= lang('Visitor_1_DL') ?>
+                                <label for="visitor_1_dl" class="control-label">
+                                    <?= lang('visitor_1_dl') ?>
                                 </label>
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                    <input type="text" class="form-control" id="visitor-1-dl">
                                 </div>
                             </form>
                             
@@ -388,7 +388,7 @@
                                 <label for="visitor_1_dl_number" class="control-label">
                                     <?= lang('visitor_1_dl_number') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-1-dl-number" class="form-control" maxlength="500"/>
                             </div>
                                                                 
                             </div>
@@ -399,24 +399,24 @@
                         <div class="col-12 col-md-6">
                 
                             <div class="form-group">
-                                <label for="Visitor_2_Name" class="control-label">
-                                    <?= lang('Visitor_2_Name') ?>
+                                <label for="visitor_2_name" class="control-label">
+                                    <?= lang('visitor_2_name') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-2-name" class="form-control" maxlength="500"/>
                             </div>
                             
                              <div class="form-group">
                                 <label for="visitor_2_dl_number" class="control-label">
                                     <?= lang('visitor_2_dl_number') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-2-dl-number" class="form-control" maxlength="500"/>
                             </div>        
                             
                             <div class="form-group">
-                                <label for="Visitor_3_Name" class="control-label">
-                                    <?= lang('Visitor_3_Name') ?>
+                                <label for="visitor_3_name" class="control-label">
+                                    <?= lang('visitor_3_name') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-3-name" class="form-control" maxlength="500"/>
                             </div>
                             
                               <div class="form-group">
@@ -429,17 +429,17 @@
 
                             
                             <div class="form-group">
-                                <label for="Visitor_4_Name" class="control-label">
-                                    <?= lang('Visitor_4_Name') ?>
+                                <label for="visitor_4_name" class="control-label">
+                                    <?= lang('visitor_4_name') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-4-name" class="form-control" maxlength="500"/>
                             </div>
                             
                               <div class="form-group">
                                 <label for="visitor_4_dl_number" class="control-label">
                                     <?= lang('visitor_4_dl_number') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-4-dl-number" class="form-control" maxlength="500"/>
                             </div>
                         
                         </div>
@@ -448,50 +448,50 @@
                 
                             <form>
                                 <div class="form-group">
-                                <label for="Visitor_2_DL" class="control-label">
-                                    <?= lang('Visitor_2_DL') ?>
+                                <label for="visitor_2_dl" class="control-label">
+                                    <?= lang('visitor_2_dl') ?>
                                 </label>
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                    <input type="text" class="form-control" id="visitor-2-dl">
                                 </div>
                             </form>   
                 
                             <div class="form-group">
-                                <label for="Visitor_2_dl_state" class="control-label">
-                                    <?= lang('Visitor_2_dl_state') ?>
+                                <label for="visitor_2_dl_state" class="control-label">
+                                    <?= lang('visitor_2_dl_state') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-2-dl-state" class="form-control" maxlength="500"/>
                             </div>
                             
                             <form>
                                 <div class="form-group">
-                                <label for="drivers_license_3" class="control-label">
-                                    <?= lang('Visitor_3_DL') ?>
+                                <label for="visitor_3_dl" class="control-label">
+                                    <?= lang('visitor_3_dl') ?>
                                 </label>
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                    <input type="text" class="form-control" id="visitor-3-dl">
                                 </div>
                             </form> 
                             
                             <div class="form-group">
-                                <label for="Visitor_3_dl_state" class="control-label">
-                                    <?= lang('Visitor_3_dl_state') ?>
+                                <label for="visitor_3_dl_state" class="control-label">
+                                    <?= lang('visitor_3_dl_state') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-3-dl-state" class="form-control" maxlength="500"/>
                             </div>
                             
                             <form>
                                 <div class="form-group">
-                                <label for="drivers_license_4" class="control-label">
-                                    <?= lang('Visitor_4_DL') ?>
+                                <label for="visitor_4_dl" class="control-label">
+                                    <?= lang('visitor_4_dl') ?>
                                 </label>
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                    <input type="text" class="form-control" id="visitor-4-dl">
                                 </div>
                             </form>
                             
                             <div class="form-group">
-                                <label for="Visitor_4_dl_state" class="control-label">
-                                    <?= lang('Visitor_4_dl_state') ?>
+                                <label for="visitor_4_dl_state" class="control-label">
+                                    <?= lang('visitor_4_dl_state') ?>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="500"/>
+                                <input type="text" id="visitor-4-dl-state" class="form-control" maxlength="500"/>
                             </div>            
                            
                         </div>   
