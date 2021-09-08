@@ -144,6 +144,7 @@ window.FrontendBook = window.FrontendBook || {};
         } else {
             var $selectProvider = $('#select-provider');
             var $selectService = $('#select-service');
+            var $selectInmate = $('#select-inmate');
 
             // Check if a specific service was selected (via URL parameter).
             var selectedServiceId = GeneralFunctions.getUrlParameter(location.href, 'service');
@@ -155,8 +156,8 @@ window.FrontendBook = window.FrontendBook || {};
             // Check if a specific inmate was selected (via URL parameter).
             var selectedinmateid = GeneralFunctions.getUrlParameter(location.href, 'inmate');
 
-            if (selectedinmateid && $selectService.find('option[value="' + selectedinmateid + '"]').length > 0) {
-                $selectService.val(selectedinmateid);
+            if (selectedinmateid && $selectInmate.find('option[value="' + selectedinmateid + '"]').length > 0) {
+                $selectInmate.val(selectedinmateid);
             }
 
 
@@ -216,6 +217,64 @@ window.FrontendBook = window.FrontendBook || {};
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
         });
+        
+         /**
+         * Event: Selected Inmate "Changed"
+         *
+         * Whenever the Inmate changes the security level updates for the provider.
+         */
+        $('#select-inmate').on('change', function () {
+            var inmateID = $('#select-inmate').val();
+            var inmate;
+            var serviceId = $('#select-service').val();
+         
+            
+            $('#select-provider').empty();
+            
+            // Select a inmate of this provider in order to make the provider available in the select box.
+                for (var index in GlobalVariables.availableInmates) {
+                    var myinmate = GlobalVariables.availableInmates[index];
+                    if (inmateID === myinmate.id)
+                    {
+                        inmate=myinmate;
+                        break;
+                        }
+                
+                }
+
+                if (typeof inmate!=="undefined") {
+            GlobalVariables.availableProviders.forEach(function (provider) {
+                // If the current provider is able to provide the selected service, add him to the list box.
+               //let filteredarray = provider.services.filter( (provider) =>
+                
+                
+                var canServeService1 = provider.inmate_classification_level === inmate.inmate_classification_level;
+    
+                var canServeService2 = provider.services.filter(function (providerServiceId) {
+                    return Number(providerServiceId) === Number(serviceId);
+                }).length > 0;
+                
+                //filteredarray.length > 0;
+                
+                
+                if (canServeService1 && canServeService2) {
+                    $('#select-provider').append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+                }
+            });
+                }
+                
+                 // Add the "Any Provider" entry.
+            if ($('#select-provider option').length >= 1 && GlobalVariables.displayAnyProvider === '1') {
+                $('#select-provider').prepend(new Option('- ' + EALang.any_provider + ' -', 'any-provider',true,true));
+            }
+            
+
+            FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
+                $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
+            FrontendBook.updateConfirmFrame();
+            updateServiceDescription(serviceId);
+        });
+
 
         /**
          * Event: Selected Service "Changed"
@@ -227,6 +286,7 @@ window.FrontendBook = window.FrontendBook || {};
             var serviceId = $('#select-service').val();
 
             $('#select-provider').empty();
+           
 
             GlobalVariables.availableProviders.forEach(function (provider) {
                 // If the current provider is able to provide the selected service, add him to the list box.
@@ -515,6 +575,22 @@ window.FrontendBook = window.FrontendBook || {};
         // Appointment Details
         
         var selectedDate = $('#select-date').datepicker('getDate');
+        var visitor2name = GeneralFunctions.escapeHtml($('#visitor-2-name').val());
+        var visitor3name = GeneralFunctions.escapeHtml($('#visitor-3-name').val());
+        var visitor4name = GeneralFunctions.escapeHtml($('#visitor-4-name').val());
+        var visitor1dlnumber = GeneralFunctions.escapeHtml($('#visitor-1-dl-number').val());
+        var visitor2dlnumber = GeneralFunctions.escapeHtml($('#visitor-2-dl-number').val());
+        var visitor3dlnumber = GeneralFunctions.escapeHtml($('#visitor-3-dl-number').val());
+        var visitor4dlnumber = GeneralFunctions.escapeHtml($('#visitor-4-dl-number').val());
+        var visitor1dlstate = GeneralFunctions.escapeHtml($('#visitor-1-dl-state').val());
+        var visitor2dlstate = GeneralFunctions.escapeHtml($('#visitor-2-dl-state').val());
+        var visitor3dlstate = GeneralFunctions.escapeHtml($('#visitor-3-dl-state').val());
+        var visitor4dlstate = GeneralFunctions.escapeHtml($('#visitor-4-dl-state').val());
+        var visitor1dl = GeneralFunctions.escapeHtml($('#visitor-1-dl').val());
+        var visitor2dl = GeneralFunctions.escapeHtml($('#visitor-2-dl').val());
+        var visitor3dl = GeneralFunctions.escapeHtml($('#visitor-3-dl').val());
+        var visitor4dl = GeneralFunctions.escapeHtml($('#visitor-4-dl').val());
+        
 
         if (selectedDate !== null) {
             selectedDate = GeneralFunctions.formatDate(selectedDate, GlobalVariables.dateFormat);
@@ -523,9 +599,9 @@ window.FrontendBook = window.FrontendBook || {};
         var serviceId = $('#select-service').val();
         var servicePrice = '';
         var serviceCurrency = '';
-        var inmateid = $('#select-inmate').val();
-        var visitor_2_name = GeneralFunctions.escapeHtml($('#visitor-2-name').val());
         
+        
+       
 
         GlobalVariables.availableServices.forEach(function (service, index) {
             if (Number(service.id) === Number(serviceId) && Number(service.price) > 0) {
@@ -552,8 +628,68 @@ window.FrontendBook = window.FrontendBook || {};
                             'text': EALang.provider + ': ' + $('#select-provider option:selected').text()
                         }),
                         $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_2_name + ': ' + visitor2name 
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_3_name + ': ' + visitor3name
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_4_name + ': ' + visitor4name
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_1_dl_number + ': ' + visitor1dlnumber
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_2_dl_number + ': ' + visitor2dlnumber
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_3_dl_number + ': ' + visitor3dlnumber
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_4_dl_number + ': ' + visitor4dlnumber
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_1_dl_state + ': ' + visitor1dlstate
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_2_dl_state + ': ' + visitor2dlstate
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_3_dl_state + ': ' + visitor3dlstate
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_4_dl_state + ': ' + visitor4dlstate
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_1_dl + ': ' + visitor1dl
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_2_dl + ': ' + visitor2dl
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_3_dl + ': ' + visitor3dl
+                        }),
+                        $('<br/>'),
+						$('<span/>', {
+                            'text': EALang.visitor_4_dl + ': ' + visitor4dl
+                        }),
+                        $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.service + ': ' + $('#select-service option:selected').text()
+                            'text': EALang.inmate + ': ' + $('#select-inmate option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
@@ -642,6 +778,7 @@ window.FrontendBook = window.FrontendBook || {};
             city: $('#city').val(),
             zip_code: $('#zip-code').val(),
             timezone: $('#select-timezone').val(),
+            
 
             
         };
@@ -654,9 +791,23 @@ window.FrontendBook = window.FrontendBook || {};
             is_unavailable: false,
             id_users_provider: $('#select-provider').val(),
             id_services: $('#select-service').val(),
+            id_inmate: $('#select-inmate').val(),
             visitor_2_name: $('#visitor-2-name').val(),
-            inmate_name: $('#select-inmate').val(),
-            
+            visitor_3_name: $('#visitor-3-name').val(),
+            visitor_4_name: $('#visitor-4-name').val(),
+            visitor_1_dl_number: $('#visitor-1-dl-number').val(),
+            visitor_2_dl_number: $('#visitor-2-dl-number').val(),
+            visitor_3_dl_number: $('#visitor-3-dl-number').val(),
+            visitor_4_dl_number: $('#visitor-4-dl-number').val(),
+            visitor_1_dl_state: $('#visitor-1-dl-state').val(),
+            visitor_2_dl_state: $('#visitor-2-dl-state').val(),
+            visitor_3_dl_state: $('#visitor-3-dl-state').val(),
+            visitor_4_dl_state: $('#visitor-4-dl-state').val(),
+            visitor_1_dl: $('#visitor-1-dl').val(),
+            visitor_2_dl: $('#visitor-2-dl').val(),
+            visitor_3_dl: $('#visitor-3-dl').val(),
+            visitor_4_dl: $('#visitor-4-dl').val(),
+                      
             
         };
 
@@ -715,6 +866,7 @@ window.FrontendBook = window.FrontendBook || {};
             $('#select-service').val(appointment.id_services).trigger('change');
             $('#select-provider').val(appointment.id_users_provider);
             $('#select-inmate').val(appointment.inmate_name);
+            $('#select-user').val(appointment.users.id);
 
             // Set Appointment Date
             $('#select-date').datepicker('setDate',
@@ -732,7 +884,7 @@ window.FrontendBook = window.FrontendBook || {};
             $('#address').val(customer.address);
             $('#city').val(customer.city);
             $('#zip-code').val(customer.zip_code);
-            $('#test').val(customer.test);
+           
 
             
             if (customer.timezone) {

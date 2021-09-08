@@ -257,6 +257,18 @@
                                             <option value="table">Table</option>
                                         </select>
                                     </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="provider-inmate_classification_level">
+                                            <?= lang('provider_inmate_classification_level') ?>
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select id="provider-inmate-classification-level" class="form-control required">
+                                            <option value="Minimum & Medium Security Inmates">Minimum & Medium Security Inmates</option>
+                                            <option value="Medium & Maximum Security Inmates">Medium & Maximum Security Inmates</option>
+                                            <option value="PC Protective Custody and Separation Inmates">PC Protective Custody and Separation Inmates</option>
+                                        </select>
+                                    </div>
 
                                     <div class="form-group">
                                         <label for="provider-timezone">
@@ -265,6 +277,10 @@
                                         </label>
                                         <?= render_timezone_dropdown('id="provider-timezone" class="form-control required"') ?>
                                     </div>
+                                    
+                                    
+
+
 
                                     <br>
 
@@ -545,6 +561,8 @@
                                     <option value="table">Table</option>
                                 </select>
                             </div>
+                            
+                            
 
                             <div class="form-group">
                                 <label for="secretary-timezone">
